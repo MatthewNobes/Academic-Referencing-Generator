@@ -31,6 +31,10 @@
   background-color: #282c34;
 }
 
+h3 {
+  text-align: left;
+}
+
 .React-Router-Group {
   width: 100%;
   display: flex;
@@ -70,4 +74,23 @@
   background-color: #282c34;
   color: white;
   min-width: 100vw;
+}
+
+/*Reference Generator bits*/
+.ReferenceGenerator-OptionsContainer{
+  align-items: center;
+  text-align: center;
+  display: fixed;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+.ReferenceGenerator-ComboBox {
+  padding-top: 2.5vh;
+  padding-bottom: 2.5vh;
+  width: 80vw;
+  max-width: 400px;
+  align-items: center;
+  justify: center;
+  margin:auto;
 }

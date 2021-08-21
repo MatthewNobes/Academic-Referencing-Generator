@@ -10,7 +10,7 @@ import Header from './Components/Header/Header';
 import Footer from './Components/Footer/Footer';
 
 import Home from './Components/main-pages/Home';
-import PageOne from './Components/main-pages/PageOne';
+import ReferenceGenerator from './Components/main-pages/ReferenceGenerator';
 
 function App() {
   return (
@@ -26,13 +26,13 @@ function App() {
               <Link className="React-Router-Links" to="/">Home</Link>
             </li>
             <li className="React-Router-Headlinks">
-              <Link className="React-Router-Links" to="/PageOne">Page 1</Link>
+              <Link className="React-Router-Links" to="/ReferenceGenerator">Reference Generator</Link>
             </li>
           </ul>
 
           <Switch>
-            <Route path="/PageOne">
-              <PageOne />
+            <Route path="/ReferenceGenerator">
+              <ReferenceGenerator />
             </Route>
             <Route path="/">
               <Home />
