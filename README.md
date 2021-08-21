@@ -1,6 +1,8 @@
-# Getting Started with Template React App
+# Academics Reference Generator
 
-This project was designed as a simple starting point for React web Applications. This has been set up with an MIT licence, so feel free to use it to avoid all the starting setup with React Apps. 
+I created this project as a way to generate references for my final year dissertation at university. The aim is to build this tool that can be used to generate references in many different types of referencing standards, and provide advice on document structure and formatting. 
+
+It is also likely that in the future this application will be hosted using GitHub pages, enabling other users to utilise this service for their own bibliographies.
 
 ## Available Scripts
 
@@ -17,7 +19,7 @@ You will also see any lint errors in the console.
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This project has jest running along side it and I endeavour to continue the rest of the project using test oriented programming. 
 
 ### `npm run build`
 
@@ -35,3 +37,4 @@ This template comes with a few key React libraries and tools installed out of th
 
 * React 
 * React-Router 
+* Material UI 
