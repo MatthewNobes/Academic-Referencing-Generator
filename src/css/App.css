@@ -77,6 +77,24 @@ h3 {
 }
 
 /*Reference Generator bits*/
+
+.ReferenceGenerator{
+  max-width: 600px;
+  display: inline-block;
+  text-align: center;
+}
+
+.ReferenceGenerator-InputBlock{
+  min-width: 100%;
+  text-align: left;
+}
+
+.ReferenceGenerator-InputElement{
+  min-width: 100%;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+}
+
 .ReferenceGenerator-OptionsContainer{
   align-items: center;
   text-align: center;
@@ -85,7 +103,7 @@ h3 {
   padding-right: 5vw;
 }
 
-.ReferenceGenerator-ComboBox {
+.ReferenceGenerator-Element {
   padding-top: 2.5vh;
   padding-bottom: 2.5vh;
   width: 80vw;
