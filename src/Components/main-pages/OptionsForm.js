@@ -56,20 +56,23 @@ const NewStyleForm = () => {
 
     const [citation, appendCitation] = useState('')
 
+    const [inTextCitation, appendinTextCitation] = useState('');
+
     const formik = useFormik({
         initialValues: {
             authorLastName: '',
             authorFirstInitial: '',
             date: '',
             articleTitle: '',
-            websiteName: ''
+            websiteName: '',
+            sourceUrl: ''
         },
         onSubmit: (values) => {
             debugger;
             const authorInfo = values.authorLastName + ' ' + values.authorFirstInitial + '. '
             const date = values.date
-            const siteInfo = values.articleTitle + ' ' + values.websiteName
-            const refer = authorInfo + ' ' + date + ' ' + siteInfo;
+            const siteInfo = values.articleTitle + ' ' + values.websiteName + '. '
+            const refer = authorInfo + ' ' + date + ' ' + siteInfo + values.sourceUrl;
             appendCitation(refer);
         }
     });
@@ -102,10 +105,17 @@ const NewStyleForm = () => {
                     <input type="text" className="ReferenceGenerator-InputElement" id="websiteName" name="websiteName" onChange={formik.handleChange} value={formik.values.websiteName}></input>
                 </div>
 
+                <div className="ReferenceGenerator-InputBlock">
+                    <label htmlFor="sourceUrl">URL</label>
+                    <input type="text" className="ReferenceGenerator-InputElement" id="sourceUrl" name="sourceUrl" onChange={formik.handleChange} value={formik.values.sourceUrl}></input>
+                </div>
+
                 <button type='submit'>Submit</button>
             </form>
             <h2>Your Reference</h2>
             <p>{citation}</p>
+            <h2>Your In-text Citation</h2>
+            <p>{inTextCitation}</p>
         </div>
     )
 }
@@ -126,5 +136,4 @@ export default function OptionsForm() {
     return (
         <NewStyleForm />
     )
-    
 }
