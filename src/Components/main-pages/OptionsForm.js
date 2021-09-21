@@ -11,6 +11,7 @@ import { Button } from '@material-ui/core';
 const NewStyleForm = () => {
 
     const [sourceTypes, appendSourceTypes] = useState(['APA 7th', 'Chicago', 'OSCOLA', 'Vancouver'])
+    const [sourceOptions, appendsourceOptions] = useState(['Print', 'Online'])
 
 
 
@@ -21,7 +22,7 @@ const NewStyleForm = () => {
     const GenerateCitation = (values) => {
         const authorInfo = values.authorLastName + ' ' + values.authorFirstInitial + '. '
         const date = values.date
-        const siteInfo =  values.siteInfo + ' ' + values.websiteName + '. '
+        const siteInfo =  values.articleTitle + ' ' + values.websiteName + '. '
         const refer = authorInfo + ' ' + date + ' ' + siteInfo + values.sourceUrl;
         appendCitation(refer);
     }
@@ -34,6 +35,7 @@ const NewStyleForm = () => {
     const formik = useFormik({
         initialValues: {
             sourceType: '',
+            sourceOptions: '',
 
             authorLastName: '',
             authorFirstInitial: '',
@@ -69,6 +71,19 @@ const NewStyleForm = () => {
                                     value={formik.values.sourceType}
                                     renderInput={(params) =>
                                     <TextField {...params} className="ReferenceGenerator-InputBlock"  label="Referencing Style" variant="outlined" />}
+                                />
+                            </Box>
+
+                            <Box pt={2} pd={2}>
+                                <Autocomplete options={sourceOptions} 
+                                    fullWidth
+                                    className="ReferenceGenerator-InputBlock" 
+                                    id="sourceOptions"
+                                    name="sourceOptions"
+                                    onChange={(e, value) => formik.setFieldValue("sourceOptions", value)}
+                                    value={formik.values.sourceOptions}
+                                    renderInput={(params) =>
+                                    <TextField {...params} className="ReferenceGenerator-InputBlock"  label="Source Options" variant="outlined" />}
                                 />
                             </Box>
                         </div> 
