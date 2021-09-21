@@ -79,6 +79,7 @@ h3 {
 /*Reference Generator bits*/
 
 .ReferenceGenerator{
+  margin: 5vw;
   max-width: 600px;
   display: inline-block;
   text-align: center;
@@ -87,12 +88,13 @@ h3 {
 .ReferenceGenerator-InputBlock{
   min-width: 100%;
   text-align: left;
+  width: 100%;
+  
 }
 
 .ReferenceGenerator-InputElement{
   min-width: 100%;
-  margin-top: 1vh;
-  margin-bottom: 2vh;
+  
 }
 
 .ReferenceGenerator-OptionsContainer{

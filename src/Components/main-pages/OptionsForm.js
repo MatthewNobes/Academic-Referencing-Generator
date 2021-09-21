@@ -2,64 +2,39 @@ import '../../css/App.css';
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 
+ 
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
-const SourceType = () => {
-    const options = ['Website', 'Journal Article', 'Book', 'Reports', 'Newspaper', 'Magazine', 'Legal & Government', 'Conference Proceedings', 'Dictionary and Encyclopedia entries', 'Bloomberg Terminals', 'Mobil Apps', 'Data Sets', 'Software', 'Social Media']
-    return (
-        <Autocomplete
-          options={options}
-          className="ReferenceGenerator-ComboBox"
-          renderInput={(params) =>
-            <TextField {...params} label="Source Type" variant="outlined" />}
-        />
-    );
-}
-
-const RefStyle = () => {
-    const options = ['APA 7th', 'Chicago', 'OSCOLA', 'Vancouver']
-    return (
-        <Autocomplete
-          options={options}
-          className="ReferenceGenerator-Element"
-          renderInput={(params) =>
-            <TextField {...params} label="Referencing Style" variant="outlined" />}
-        />
-        
-    );
-}
-
-const SourceDetails = () => {
-    return (
-        <div>
-            <TextField id="outlined-basic" className="ReferenceGenerator-Element" label="Authors last name" variant="outlined" />
-            <TextField id="outlined-basic" className="ReferenceGenerator-Element" label="Authors initials" variant="outlined" />
-            <TextField
-                className="ReferenceGenerator-Element"
-                id="date"
-                label="Date of publication"
-                type="date"
-                defaultValue="2017-05-24"
-                InputLabelProps={{
-                shrink: true,
-                }}
-            />
-            <TextField id="outlined-basic" className="ReferenceGenerator-Element" label="Title of article " variant="outlined" />
-            <TextField id="outlined-basic" className="ReferenceGenerator-Element" label="Title of website" variant="outlined" />
-            <TextField id="outlined-basic" className="ReferenceGenerator-Element" label="URL" variant="outlined" />
-        </div>
-    )
-}
+import { Box } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 const NewStyleForm = () => {
 
+    const [sourceTypes, appendSourceTypes] = useState(['APA 7th', 'Chicago', 'OSCOLA', 'Vancouver'])
+
+
+
     const [citation, appendCitation] = useState('')
 
-    const [inTextCitation, appendinTextCitation] = useState('');
+    const [inTextCitation, appendInTextCitation] = useState('');
+
+    const GenerateCitation = (values) => {
+        const authorInfo = values.authorLastName + ' ' + values.authorFirstInitial + '. '
+        const date = values.date
+        const siteInfo =  values.siteInfo + ' ' + values.websiteName + '. '
+        const refer = authorInfo + ' ' + date + ' ' + siteInfo + values.sourceUrl;
+        appendCitation(refer);
+    }
+
+    const GenerateInTextCitation = (values) => {
+        const refer = `(${values.authorLastName} ${values.date})`
+        appendInTextCitation(refer);
+    }
 
     const formik = useFormik({
         initialValues: {
+            sourceType: '',
+
             authorLastName: '',
             authorFirstInitial: '',
             date: '',
@@ -67,50 +42,126 @@ const NewStyleForm = () => {
             websiteName: '',
             sourceUrl: ''
         },
-        onSubmit: (values) => {
+        onSubmit: (values) => { 
             debugger;
-            const authorInfo = values.authorLastName + ' ' + values.authorFirstInitial + '. '
-            const date = values.date
-            const siteInfo = values.articleTitle + ' ' + values.websiteName + '. '
-            const refer = authorInfo + ' ' + date + ' ' + siteInfo + values.sourceUrl;
-            appendCitation(refer);
+            GenerateCitation(values);
+            GenerateInTextCitation(values);
+            console.log(values.sourceType);
         }
     });
+
+    console.log(formik.values);
 
     return (
         <div className="ReferenceGenerator">
             <form  onSubmit={formik.handleSubmit}>
-                <div className="ReferenceGenerator-InputBlock">
-                    <label htmlFor="authorLastName">Authors Last Name</label>
-                    <input type="text" className="ReferenceGenerator-InputElement" id="authorLastName" name="authorLastName" onChange={formik.handleChange} value={formik.values.authorLastName}></input>
-                </div>
-                
-                <div className="ReferenceGenerator-InputBlock">
-                    <label htmlFor="authorFirstInitial">Authors First initial</label>
-                    <input type="text" className="ReferenceGenerator-InputElement" id="authorFirstInitial" name="authorFirstInitial" onChange={formik.handleChange} value={formik.values.authorFirstInitial}></input>
-                </div>
-                
-                <div className="ReferenceGenerator-InputBlock">
-                    <label htmlFor="date">Date of publication (Year, Month Day)</label>
-                    <input type="text" className="ReferenceGenerator-InputElement" id="date" name="date" onChange={formik.handleChange} value={formik.values.date}></input>
-                </div>
-                
-                <div className="ReferenceGenerator-InputBlock">
-                    <label htmlFor="articleTitle">Title of article</label>
-                    <input type="text" className="ReferenceGenerator-InputElement" id="articleTitle" name="articleTitle" onChange={formik.handleChange} value={formik.values.articleTitle}></input>
-                </div>
-                
-                <div className="ReferenceGenerator-InputBlock">
-                    <label htmlFor="websiteName">Website Name</label>
-                    <input type="text" className="ReferenceGenerator-InputElement" id="websiteName" name="websiteName" onChange={formik.handleChange} value={formik.values.websiteName}></input>
+                <div>
+                    <h1>Reference options</h1>
+
+                        <div className="ReferenceGenerator-InputBlock">
+                            <Box pt={2} pd={2}>
+                                <Autocomplete options={sourceTypes} 
+                                    fullWidth
+                                    className="ReferenceGenerator-InputBlock" 
+                                    id="sourceType"
+                                    name="sourceType"
+                                    onChange={(e, value) => formik.setFieldValue("sourceType", value)}
+                                    value={formik.values.sourceType}
+                                    renderInput={(params) =>
+                                    <TextField {...params} className="ReferenceGenerator-InputBlock"  label="Referencing Style" variant="outlined" />}
+                                />
+                            </Box>
+                        </div> 
                 </div>
 
-                <div className="ReferenceGenerator-InputBlock">
-                    <label htmlFor="sourceUrl">URL</label>
-                    <input type="text" className="ReferenceGenerator-InputElement" id="sourceUrl" name="sourceUrl" onChange={formik.handleChange} value={formik.values.sourceUrl}></input>
+                <div>
+                    <h1>Reference details</h1>
+                    
+                    
+                    <Box pt={2} pd={2}>
+                        <TextField 
+                            fullWidth
+                            id="authorLastName" 
+                            name="authorLastName" 
+                            value="authorLastName"
+                            type="text"
+                            className="ReferenceGenerator-InputBlock" 
+                            onChange={formik.handleChange} 
+                            value={formik.values.authorLastName} 
+                            label="Authors Last Name" 
+                            variant="outlined" 
+                        />
+                    </Box>
+                    
+                    <Box pt={2} pd={2}>
+                        <TextField 
+                            fullWidth
+                            id="authorFirstInitial" 
+                            name="authorFirstInitial" 
+                            value="authorFirstInitial"
+                            type="text"
+                            className="ReferenceGenerator-InputBlock" 
+                            onChange={formik.handleChange} 
+                            value={formik.values.authorFirstInitial} 
+                            label="Authors First Name" 
+                            variant="outlined" 
+                        />
+                    </Box>
+                    
+                    
+                    <div className="ReferenceGenerator-InputBlock">
+                        <label htmlFor="date">Date of publication (Year, Month Day)</label>
+                        <input type="date" className="ReferenceGenerator-InputElement" id="date" name="date" onChange={formik.handleChange} value={formik.values.date}  />
+                    </div>
+                    
+                    <Box pt={2} pb={2}>
+                        <TextField 
+                            fullWidth
+                            id="articleTitle" 
+                            name="articleTitle" 
+                            value="articleTitle"
+                            type="text"
+                            className="ReferenceGenerator-InputBlock" 
+                            onChange={formik.handleChange} 
+                            value={formik.values.articleTitle} 
+                            label="Title of article" 
+                            variant="outlined" 
+                        />
+                    </Box>
+                    
+                    <Box pt={2} pd={2}>
+                        <TextField 
+                            fullWidth
+                            id="websiteName" 
+                            name="websiteName" 
+                            value="websiteName"
+                            type="text"
+                            className="ReferenceGenerator-InputBlock" 
+                            onChange={formik.handleChange} 
+                            value={formik.values.websiteName} 
+                            label="Website Name" 
+                            variant="outlined" 
+                        />
+                    </Box>
+                    
+                    <Box pt={2} pd={2}>
+                        <TextField 
+                            fullWidth
+                            id="sourceUrl" 
+                            name="sourceUrl" 
+                            value="sourceUrl"
+                            type="text"
+                            className="ReferenceGenerator-InputBlock" 
+                            onChange={formik.handleChange} 
+                            value={formik.values.sourceUrl} 
+                            label="Site URL" 
+                            variant="outlined" 
+                        />
+                    </Box>
+                    
                 </div>
-
-                <button type='submit'>Submit</button>
+                
+                <Button varient="outlined" type='submit'>Submit</Button>
             </form>
             <h2>Your Reference</h2>
             <p>{citation}</p>
@@ -119,18 +170,6 @@ const NewStyleForm = () => {
         </div>
     )
 }
-
-/*Source needs to have for webpage/website
-    Author (last name)-support multiple
-    Initials-support multiple
-    Date of publication 
-        Year
-        Month 
-        Day
-    Title of article 
-    Title of website
-    URL 
-*/
 
 export default function OptionsForm() {
     return (
